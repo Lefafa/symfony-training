@@ -30,5 +30,8 @@ sudo chmod -R +a "`whoami` allow delete,write,append,file_inherit,directory_inhe
 ```
 If you are not on mac, watch this link: [Setting up or Fixing File Permissions][1]
 
+If you work on localhost, go to: [http://localhost/symfony-training/web/app_dev.php][2]
 
-[1]:  http://symfony.com/doc/current/setup/file_permissions.html
+
+[1]: http://symfony.com/doc/current/setup/file_permissions.html
+[2]: http://localhost/symfony-training/web/app_dev.php
