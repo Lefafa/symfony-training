@@ -1,16 +1,16 @@
 {% extends "AppBundle::layout.html.twig" %}
 
 {% block title %}
-  View an advert - {{ parent() }}
+  View a job - {{ parent() }}
 {% endblock %}
 
 {% block appbundle_body %}
 
-  <h2>{{ advert.title }}</h2>
-  <i>By {{ advert.author }}, the {{ advert.date|date('m/d/Y') }}</i>
+  <h2>{{ job.title }}</h2>
+  <i>By {{ job.author }}, the {{ job.date|date('m/d/Y') }}</i>
 
   <div class="well">
-    {{ advert.content }}
+    {{ job.content }}
   </div>
 
   <p>
@@ -18,13 +18,13 @@
       <i class="glyphicon glyphicon-chevron-left"></i>
       Back to the list
     </a>
-    <a href="{{ path('advert_edit', {'id': advert.id}) }}" class="btn btn-default">
+    <a href="{{ path('job_edit', {'id': job.id}) }}" class="btn btn-default">
       <i class="glyphicon glyphicon-edit"></i>
-      Edit advert
+      Edit job
     </a>
-    <a href="{{ path('advert_delete', {'id': advert.id}) }}" class="btn btn-danger">
+    <a href="{{ path('job_delete', {'id': job.id}) }}" class="btn btn-danger">
       <i class="glyphicon glyphicon-trash"></i>
-      Delete advert
+      Delete job
     </a>
   </p>
 

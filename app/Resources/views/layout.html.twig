@@ -14,7 +14,7 @@
     <body>
         <div class="container">
             <div id="header" class="jumbotron">
-                <h1>My advert platform</h1>
+                <h1>My job platform</h1>
                 <p>
                 This is a symfony2 training
                 </p>
@@ -22,13 +22,13 @@
 
             <div class="row">
                 <div id="menu" class="col-md-3">
-                    <h3>The adverts</h3>
+                    <h3>Menu</h3>
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="{{ path('index_home') }}">Home</a></li>
-                        <li><a href="{{ path('advert_new') }}">Add an advert</a></li>
+                        <li><a href="{{ path('job_new') }}">Add a job</a></li>
                     </ul>
 
-                    <h4>Last adverts</h4>
+                    <h4>Last jobs</h4>
                         {{ render(controller("AppBundle:Index:menu", {'limit': 3})) }}
                 </div>
 

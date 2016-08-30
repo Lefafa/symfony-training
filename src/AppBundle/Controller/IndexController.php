@@ -19,7 +19,7 @@ class IndexController extends Controller
         }
 
         // Fake data
-        $listAdverts = array(
+        $listJobs = array(
             array(
                 'title'   => 'Looking for Symfony developer',
                 'id'      => 1,
@@ -41,21 +41,21 @@ class IndexController extends Controller
         );
 
         return $this->render('AppBundle:Index:index.html.twig', array(
-          'listAdverts' => $listAdverts,
+          'listJobs' => $listJobs,
         ));
     }
 
     public function menuAction($limit)
     {
         // Fake data
-        $listAdverts = array(
+        $listJobs = array(
           array('id' => 2, 'title' => 'Looking for Symfony developer'),
           array('id' => 5, 'title' => 'Webmaster mission'),
           array('id' => 9, 'title' => 'Intern webdesigner')
         );
 
         return $this->render('AppBundle:Index:menu.html.twig', array(
-          'listAdverts' => $listAdverts
+          'listJobs' => $listJobs
         ));
     }
 }

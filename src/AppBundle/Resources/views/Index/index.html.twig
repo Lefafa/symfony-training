@@ -6,19 +6,19 @@
 
 {% block appbundle_body %}
 
-  <h2>Adverts list</h2>
+  <h2>Jobs list</h2>
 
   <ul>
-    {% for advert in listAdverts %}
+    {% for job in listJobs %}
       <li>
-        <a href="{{ path('advert_view', {'id': advert.id}) }}">
-          {{ advert.title }}
+        <a href="{{ path('job_view', {'id': job.id}) }}">
+          {{ job.title }}
         </a>
-        by {{ advert.author }},
-        the {{ advert.date|date('m/d/Y') }}
+        by {{ job.author }},
+        the {{ job.date|date('m/d/Y') }}
       </li>
     {% else %}
-      <li>No adverts</li>
+      <li>No jobs</li>
     {% endfor %}
   </ul>
 

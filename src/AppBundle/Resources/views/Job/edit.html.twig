@@ -1,0 +1,20 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block title %}
+  Edit job - {{ parent() }}
+{% endblock %}
+
+{% block appbundle_body %}
+
+  <h2>Edit job</h2>
+
+  {{ include("AppBundle:Job:form.html.twig") }}
+
+  <p>
+    <a href="{{ path('job_view', {'id': job.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Back to the job
+    </a>
+  </p>
+
+{% endblock %}
