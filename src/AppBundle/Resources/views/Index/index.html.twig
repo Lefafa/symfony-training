@@ -1,0 +1,25 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block title %}
+  Home - {{ parent() }}
+{% endblock %}
+
+{% block appbundle_body %}
+
+  <h2>Adverts list</h2>
+
+  <ul>
+    {% for advert in listAdverts %}
+      <li>
+        <a href="{{ path('advert_view', {'id': advert.id}) }}">
+          {{ advert.title }}
+        </a>
+        by {{ advert.author }},
+        the {{ advert.date|date('m/d/Y') }}
+      </li>
+    {% else %}
+      <li>No adverts</li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

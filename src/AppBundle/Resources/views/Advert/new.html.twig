@@ -1,0 +1,13 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block title %}
+  New - {{ parent() }}
+{% endblock %}
+
+{% block appbundle_body %}
+
+  <h2>New advert</h2>
+
+  {{ include("AppBundle:Advert:form.html.twig") }}
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  Adverts - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  {# Common sub-title for the bundle #}
+  <h1>Adverts</h1>
+
+  <hr>
+
+  {# Body for the bundle #}
+  {% block appbundle_body %}
+  {% endblock %}
+
+{% endblock %}
