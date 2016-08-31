@@ -28,7 +28,7 @@ sudo chmod -R +a "$HTTPDUSER allow delete,write,append,file_inherit,directory_in
 ```
 sudo chmod -R +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
 ```
-If you are not on mac, watch this link: [Setting up or Fixing File Permissions][1]
+If you are not on MacOS, watch this link: [Setting up or Fixing File Permissions][1]
 
 If you work on localhost, go to: [http://localhost/symfony-training/web/app_dev.php][2]
 
