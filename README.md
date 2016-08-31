@@ -1,7 +1,7 @@
 Install
 ========================
 
-Clone the repository.
+Clone the repository in your Web Server folder.
 ```
 git clone https://github.com/Lefafa/symfony-training.git
 ```
