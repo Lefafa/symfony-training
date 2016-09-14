@@ -30,6 +30,18 @@ sudo chmod -R +a "`whoami` allow delete,write,append,file_inherit,directory_inhe
 ```
 If you are not on MacOS, watch this link: [Setting up or Fixing File Permissions][1]
 
+Create the database:
+```
+php app/console doctrine:database:create
+```
+Create the schema of the database:
+```
+php app/console doctrine:schema:update --force
+```
+Load the fixtures:
+```
+php app/console doctrine:fixtures:load
+```
 If you work on localhost, go to: [http://localhost/symfony-training/web/app_dev.php][2]
 
 
