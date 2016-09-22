@@ -40,6 +40,10 @@ class IndexController extends Controller
                 'date'    => new \Datetime())
         );
 
+        // Test the AntiSpam service
+        $antispam = $this->container->get('app.antispam');
+        dump( $antispam->isSpam('Hello Team, I am a spam.') );
+
         return $this->render('AppBundle:Index:index.html.twig', array(
           'listJobs' => $listJobs,
         ));

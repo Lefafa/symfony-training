@@ -7,6 +7,9 @@
 {% block appbundle_body %}
 
   <h2>Jobs list</h2>
+  
+{# Test the Twig service extension Antispam #}
+{{ checkIfSpam('Hello Team, I am a spam.') }}
 
   <ul>
     {% for job in listJobs %}

@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use AppBundle\Entity\Job;
 
 /**
  * @Route("/job")
@@ -36,6 +37,20 @@ class JobController extends Controller
      */
     public function newAction(Request $request)
     {
+        // Crate a fake entity - hardcoding
+        $job = new Job();
+        $job->setTitle('Symfony2 developer')
+            ->setAuthor('Fabien')
+            ->setContent('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem.');
+
+        // Get the Entity Manager
+        $em = $this->getDoctrine()->getManager();
+
+        // Step 1: persist the entity
+        $em->persist($job);
+        // Step 2: flush everything that was persisted before
+        $em->flush();
+
         // If POST request, that means that the user submitted the form
         if ($request->isMethod('POST')) {
             $request->getSession()->getFlashBag()->add('notice', 'Job has been saved.');

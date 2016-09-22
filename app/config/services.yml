@@ -1,9 +1,21 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
-#    parameter_name: value
+    app.antispam.min_length: 50
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    app.antispam:
+        class: AppBundle\Antispam\Antispam
+        arguments:
+            - '@mailer'
+            - '%app.antispam.min_length%'
+        calls:
+            - [ setLocale, [%locale%] ]
+
+    app.twig.antispam_extension:
+        class: AppBundle\Twig\AntispamExtension
+        arguments:
+            - '@app.antispam'
+        tags:
+            -  { name: twig.extension }

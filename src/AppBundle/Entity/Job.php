@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Job
@@ -58,7 +59,6 @@ class Job
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $image;
 
