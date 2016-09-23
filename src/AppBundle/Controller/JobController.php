@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Job;
+use AppBundle\Entity\Application;
 
 /**
  * @Route("/job")
@@ -49,6 +50,10 @@ class JobController extends Controller
         // Step 1: persist the entity
         $em->persist($job);
         // Step 2: flush everything that was persisted before
+        $em->flush();
+
+        // Test Lifecycle Callback for update
+        $job->setTitle('[Updated] Symfony2 developer');
         $em->flush();
 
         // If POST request, that means that the user submitted the form

@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="job")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\JobRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Job
 {
@@ -25,9 +26,16 @@ class Job
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @var string
@@ -53,7 +61,7 @@ class Job
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isPublished", type="boolean")
+     * @ORM\Column(name="is_published", type="boolean")
      */
     private $isPublished = true;
 
@@ -68,9 +76,14 @@ class Job
     private $categories;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Application", mappedBy="job")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Application", mappedBy="job", cascade={"persist"})
      */
     private $applications;
+
+    /**
+    * @ORM\Column(name="nb_applications", type="integer")
+    */
+    private $nbApplications = 0;
 
 
     public function __construct()
@@ -294,5 +307,77 @@ class Job
     public function getApplications()
     {
         return $this->applications;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return Job
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Callback to update automatically updatedDate
+     *
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $this->setUpdatedAt(new \Datetime());
+    }
+
+    /**
+     * Set nbApplications
+     *
+     * @param integer $nbApplications
+     * @return Job
+     */
+    public function setNbApplications($nbApplications)
+    {
+        $this->nbApplications = $nbApplications;
+
+        return $this;
+    }
+
+    /**
+     * Get nbApplications
+     *
+     * @return integer 
+     */
+    public function getNbApplications()
+    {
+        return $this->nbApplications;
+    }
+
+    /*
+     * Increase the number of Applications for a Job - PrePersist of Application
+     */
+    public function increaseApplication()
+    {
+        $this->nbApplications++;
+    }
+
+    /*
+     * Decrease the number of Applications for a Job - PreRemove of Application
+     */
+    public function decreaseApplication()
+    {
+        $this->nbApplications--;
     }
 }
