@@ -18,17 +18,25 @@ Delete cache and log folders.
 rm -rf app/cache/*
 rm -rf app/logs/*
 ```
-Give write-acccess to these folders (for MacOS X).
+Give write-acccess to these folders.
 ```
 HTTPDUSER=`ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
 ```
+On MacOS:
 ```
 sudo chmod -R +a "$HTTPDUSER allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
 ```
 ```
 sudo chmod -R +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
 ```
-If you are not on MacOS, watch this link: [Setting up or Fixing File Permissions][1]
+on Linux:
+```
+sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/cache app/logs
+```
+```
+sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/cache app/logs
+```
+If you have any problems with permissions, look at this link: [Setting up or Fixing File Permissions][1]
 
 Create the database:
 ```
