@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Job;
 use AppBundle\Entity\Application;
@@ -19,14 +20,10 @@ class JobController extends Controller
      */
     public function viewAction($id)
     {
-        // Fake data
-        $job = array(
-          'title'   => 'symfony2 developer',
-          'id'      => $id,
-          'author'  => 'Fabien',
-          'content' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem',
-          'date'    => new \Datetime()
-        );
+        // Get Entity Manager
+        $em = $this->getDoctrine()->getManager();
+
+        $job = $em->getRepository('AppBundle:Job')->find($id);
 
         return $this->render('AppBundle:Job:view.html.twig', array(
           'job' => $job
@@ -38,24 +35,6 @@ class JobController extends Controller
      */
     public function newAction(Request $request)
     {
-        // Crate a fake entity - hardcoding
-        $job = new Job();
-        $job->setTitle('Symfony2 developer')
-            ->setAuthor('Fabien')
-            ->setContent('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem.');
-
-        // Get the Entity Manager
-        $em = $this->getDoctrine()->getManager();
-
-        // Step 1: persist the entity
-        $em->persist($job);
-        // Step 2: flush everything that was persisted before
-        $em->flush();
-
-        // Test Lifecycle Callback for update
-        $job->setTitle('[Updated] Symfony2 developer');
-        $em->flush();
-
         // If POST request, that means that the user submitted the form
         if ($request->isMethod('POST')) {
             $request->getSession()->getFlashBag()->add('notice', 'Job has been saved.');
@@ -96,4 +75,25 @@ class JobController extends Controller
     public function deleteAction($id)
     {
     }
+
+    /**
+     * @Route("/purge/{days}", name="job_purge", requirements={"days" = "\d+"})
+     */
+    public function purgeAction($days, Request $request)
+    {
+        // Get the service
+        $purger = $this->get('app.purger.job');
+
+        // Purge thhe jobs
+        $test = $purger->purge($days);
+
+        // Add a message
+        $request->getSession()->getFlashBag()->add(
+                'info',
+                'Job advertisements older than '.$days.' have been deleted.'
+                );
+
+        // Redirect to home page
+        return $this->redirectToRoute('index_home');
+  }
 }

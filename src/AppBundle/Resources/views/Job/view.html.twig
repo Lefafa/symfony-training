@@ -7,7 +7,7 @@
 {% block appbundle_body %}
 
   <h2>{{ job.title }}</h2>
-  <i>By {{ job.author }}, the {{ job.date|date('m/d/Y') }}</i>
+  <i>By {{ job.author }}, the {{ job.createdAt|date('m/d/Y') }}</i>
 
   <div class="well">
     {{ job.content }}

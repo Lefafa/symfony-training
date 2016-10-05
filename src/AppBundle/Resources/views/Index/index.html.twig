@@ -7,9 +7,6 @@
 {% block appbundle_body %}
 
   <h2>Jobs list</h2>
-  
-{# Test the Twig service extension Antispam #}
-{{ checkIfSpam('Hello Team, I am a spam.') }}
 
   <ul>
     {% for job in listJobs %}
@@ -18,11 +15,21 @@
           {{ job.title }}
         </a>
         by {{ job.author }},
-        the {{ job.date|date('m/d/Y') }}
+        the {{ job.createdAt|date('m/d/Y') }}
       </li>
     {% else %}
       <li>No jobs</li>
     {% endfor %}
+  </ul>
+
+  <ul class="pagination">
+
+    {% for p in range(1, nbPages) %}
+      <li{% if p == page %} class="active"{% endif %}>
+        <a href="{{ path('index_home', {'page': p}) }}">{{ p }}</a>
+      </li>
+    {% endfor %}
+
   </ul>
 
 {% endblock %}
