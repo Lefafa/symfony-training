@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Job;
 use AppBundle\Entity\Application;
+use AppBundle\Form\JobType;
 
 /**
  * @Route("/job")
@@ -35,14 +36,24 @@ class JobController extends Controller
      */
     public function newAction(Request $request)
     {
+        $job = new Job();
+        $form = $this->createForm(JobType::class, $job);
+
         // If POST request, that means that the user submitted the form
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($job);
+            $em->flush();
+
             $request->getSession()->getFlashBag()->add('notice', 'Job has been saved.');
 
-        return $this->redirectToRoute('job_view', array('id' => 5));
+            return $this->redirectToRoute('job_view', array('id' => $job->getId()));
         }
         // If not POST, display the form
-        return $this->render('AppBundle:Job:new.html.twig');
+        return $this->render('AppBundle:Job:new.html.twig', array(
+            'form' => $form->createView(),
+            ));
     }
 
     /**
