@@ -1,10 +1,10 @@
 <h3>Job form</h3>
 
 <div class="well">
-  {{ form(form) }}
+{#   {{ form(form) }} #}
 
-<!--
-  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+{#  <!--  #}
+  {{ form_start(form) }}
 
   {# Global errors. #}
   {{ form_errors(form) }}
@@ -15,7 +15,7 @@
   {# Generate manually amd exploded: #}
   <div class="form-group">
     {# Génération du label. #}
-    {{ form_label(form.title, "Title of the job advertisement", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {{ form_label(form.title, "Title", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
 
     {# Display errors for this field. #}
     {{ form_errors(form.title) }}
@@ -28,7 +28,7 @@
 
   {# Another field. #}
   <div class="form-group">
-    {{ form_label(form.content, "Content of the job advertisement", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {{ form_label(form.content, "Content", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
     {{ form_errors(form.title) }}
     <div class="col-sm-10">
       {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
@@ -37,6 +37,15 @@
 
   {{ form_row(form.author) }}
   {{ form_row(form.isPublished) }}
+
+  <div class="form-group">
+  	{{ form_row(form.image) }}
+  </div>
+
+  <div class="form-group">
+	  {{ form_row(form.categories) }}
+	  <a href="#" id="add_category" class="btn btn-default">Add a category</a>
+  </div>
 
   {# For the save button, no label no error, just the widget #}
   {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
@@ -47,5 +56,8 @@
   {{ form_rest(form) }}
 
   {{ form_end(form) }}
--->
+{# --> #}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 </div>
