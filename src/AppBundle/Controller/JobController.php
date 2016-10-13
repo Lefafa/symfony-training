@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\Job;
 use AppBundle\Entity\Application;
 use AppBundle\Form\JobType;
+use AppBundle\Form\JobEditType;
 
 /**
  * @Route("/job")
@@ -61,22 +62,20 @@ class JobController extends Controller
      */
     public function editAction($id, Request $request)
     {
+        // Get Entity Manager
+        $em = $this->getDoctrine()->getManager();
+
+        $job = $em->getRepository('AppBundle:Job')->find($id);
+        $form = $this->createForm(JobEditType::class, $job);
+
         if ($request->isMethod('POST')) {
           $request->getSession()->getFlashBag()->add('notice', 'Job edited.');
-          return $this->redirectToRoute('job_view', array('id' => 5));
+          return $this->redirectToRoute('job_view', array('id' => $id));
         }
 
-        // Fake data
-        $job = array(
-          'title'   => 'Symfony developer',
-          'id'      => $id,
-          'author'  => 'Hilary',
-          'content' => 'fsf f fsd ff fd sdsfd dsf d f',
-          'date'    => new \Datetime()
-        );
-
         return $this->render('AppBundle:Job:edit.html.twig', array(
-          'job' => $job
+          'job' => $job,
+          'form' => $form->createView(),
         ));
     }
 

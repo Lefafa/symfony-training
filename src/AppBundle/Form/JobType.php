@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class JobType extends AbstractType
 {
@@ -25,15 +28,37 @@ class JobType extends AbstractType
             ->add('title', TextType::class)
             ->add('author', TextType::class)
             ->add('content', TextareaType::class)
-            ->add('isPublished', CheckboxType::class, array('required' => false))
+            /*->add('isPublished', CheckboxType::class, array('required' => false))*/
             ->add('image', ImageType::class)
-            ->add('categories', CollectionType::class, array(
+            /*->add('categories', CollectionType::class, array(
                 'entry_type'   => CategoryType::class,
                 'allow_add'    => true,
                 'allow_delete' => true
+                ))*/
+            ->add('categories', EntityType::class, array(
+                'class'        => 'AppBundle:Category',
+                'choice_label' => 'name',
+                'multiple'     => true,
                 ))
             ->add('save', SubmitType::class)
         ;
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+                $job = $event->getData();
+
+                if (null === $job) {
+                    return;
+                }
+
+                if (!$job->getIsPublished() || null === $job->getId()) {
+                    $event->getForm()->add('isPublished', CheckboxType::class, array('required' => false));
+                }
+                else {
+                    $event->getForm()->remove('isPublished');
+                }
+            }
+        );
     }
     
     /**

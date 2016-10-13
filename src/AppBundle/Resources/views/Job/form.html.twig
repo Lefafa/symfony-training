@@ -9,8 +9,11 @@
   {# Global errors. #}
   {{ form_errors(form) }}
 
-  {# Generate label + error + widget for a field. #}
-  {{ form_row(form.createdAt) }}
+  {# This field does not exist for edit form #}
+  {% if form.createdAt is defined %}
+    {# Generate label + error + widget for a field. #}
+    {{ form_row(form.createdAt) }}
+  {% endif %}
 
   {# Generate manually amd exploded: #}
   <div class="form-group">
@@ -36,15 +39,18 @@
   </div>
 
   {{ form_row(form.author) }}
-  {{ form_row(form.isPublished) }}
+
+  {% if form.isPublished is defined %}
+    {{ form_row(form.isPublished) }}
+  {% endif %}
 
   <div class="form-group">
-  	{{ form_row(form.image) }}
+    {{ form_row(form.image) }}
   </div>
 
   <div class="form-group">
-	  {{ form_row(form.categories) }}
-	  <a href="#" id="add_category" class="btn btn-default">Add a category</a>
+    {{ form_row(form.categories) }}
+    <a href="#" id="add_category" class="btn btn-default">Add a category</a>
   </div>
 
   {# For the save button, no label no error, just the widget #}
