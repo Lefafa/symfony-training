@@ -5,6 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Job
@@ -12,6 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="job")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\JobRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="title", message="A job already exists with this title.")
  */
 class Job
 {
@@ -28,6 +32,7 @@ class Job
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
+     * @Assert\DateTime()
      */
     private $createdAt;
 
@@ -42,6 +47,7 @@ class Job
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(min=10)
      */
     private $title;
 
@@ -49,6 +55,7 @@ class Job
      * @var string
      *
      * @ORM\Column(name="author", type="string", length=255)
+     * * @Assert\Length(min=2)
      */
     private $author = 'Jon Snow';
 
@@ -56,6 +63,7 @@ class Job
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank()
      */
     private $content;
 
@@ -68,6 +76,7 @@ class Job
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $image;
 
@@ -82,8 +91,8 @@ class Job
     private $applications;
 
     /**
-    * @ORM\Column(name="nb_applications", type="integer")
-    */
+     * @ORM\Column(name="nb_applications", type="integer")
+     */
     private $nbApplications = 0;
 
     /**
@@ -409,5 +418,33 @@ class Job
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @Assert\IsTrue(message = "The title cannot match the content")
+     */
+    public function isJobValid()
+    {
+        if($this->title == $this->content)
+            return false;
+        else return true;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isContentValid(ExecutionContextInterface $context)
+    {
+        $forbiddenWords = array('testword1', 'testword2');
+        
+        // Check if content does not contain forbiddenWords
+        if (preg_match('#'.implode('|', $forbiddenWords).'#', $this->getContent())) {
+            // The rule is violated, we define the error
+            $context
+                ->buildViolation('Invalid content because it contains a forbidden word.') // message
+                ->atPath('content') // object attribute which is viloated
+                ->addViolation() // Thrown exception
+                ;
+        }
     }
 }

@@ -68,7 +68,10 @@ class JobController extends Controller
         $job = $em->getRepository('AppBundle:Job')->find($id);
         $form = $this->createForm(JobEditType::class, $job);
 
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            $em->flush();
+
           $request->getSession()->getFlashBag()->add('notice', 'Job edited.');
           return $this->redirectToRoute('job_view', array('id' => $id));
         }

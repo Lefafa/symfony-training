@@ -28,18 +28,17 @@ class JobType extends AbstractType
             ->add('title', TextType::class)
             ->add('author', TextType::class)
             ->add('content', TextareaType::class)
-            /*->add('isPublished', CheckboxType::class, array('required' => false))*/
             ->add('image', ImageType::class)
-            /*->add('categories', CollectionType::class, array(
+            ->add('categories', CollectionType::class, array(
                 'entry_type'   => CategoryType::class,
                 'allow_add'    => true,
                 'allow_delete' => true
-                ))*/
-            ->add('categories', EntityType::class, array(
+                ))
+            /*->add('categories', EntityType::class, array(
                 'class'        => 'AppBundle:Category',
                 'choice_label' => 'name',
                 'multiple'     => true,
-                ))
+                ))*/
             ->add('save', SubmitType::class)
         ;
 

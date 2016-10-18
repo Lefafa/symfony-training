@@ -22,7 +22,7 @@ class IndexController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // Setting nbPerPage here, but normally we have tu use a parameter and get it: $this->container->getParameter('nb_per_page')
-        $nbPerPage = 3;
+        $nbPerPage = 5;
 
         // Get Paginator Object
         $listJobs = $em->getRepository('AppBundle:Job')->getJobs($page, $nbPerPage);

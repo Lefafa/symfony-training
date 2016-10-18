@@ -2,7 +2,7 @@
 
     var App = (function () {
         // Get the div with "data-prototype" attribute
-        var container = $('div#job_categories');
+        var container = $('.job_categories_fields');
         // Counter of categories
         var index = container.find(':input').length;
 
@@ -42,7 +42,6 @@
 
         addDeleteLink = function (prototype) {
             var deleteLink = $('<a href="#" class="btn btn-danger">Delete</a>');
-
             prototype.append(deleteLink);
             deleteLink.click(function(e) {
                 prototype.remove();
