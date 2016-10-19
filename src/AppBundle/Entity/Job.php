@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use AppBundle\Validator\Antiflood;
 
 /**
  * Job
@@ -63,6 +64,7 @@ class Job
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Antiflood()
      * @Assert\NotBlank()
      */
     private $content;
@@ -421,7 +423,7 @@ class Job
     }
 
     /**
-     * @Assert\IsTrue(message = "The title cannot match the content")
+     * @Assert\IsTrue(message = "The title cannot match the content.")
      */
     public function isJobValid()
     {
@@ -435,7 +437,7 @@ class Job
      */
     public function isContentValid(ExecutionContextInterface $context)
     {
-        $forbiddenWords = array('testword1', 'testword2');
+        $forbiddenWords = array('word1', 'word2');
         
         // Check if content does not contain forbiddenWords
         if (preg_match('#'.implode('|', $forbiddenWords).'#', $this->getContent())) {
